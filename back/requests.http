@@ -1,14 +1,14 @@
 ### Base URL
 @baseUrl = http://localhost:3000
 @json = application/json
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNjZjMjI5Ny0xMDhiLTRjM2EtOTg4Ni1lNTY4ZjQxZDA0MDUiLCJlbWFpbCI6Imp1YW5pdG9AZXhhbXBsZS5jb20iLCJpYXQiOjE3Njk2OTU5MjgsImV4cCI6MTc2OTY5OTUyOH0.jRXaN246VJPHhJ85l7NC6gyXJ62_Gm95NVL7Da0zSmg
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNjZjMjI5Ny0xMDhiLTRjM2EtOTg4Ni1lNTY4ZjQxZDA0MDUiLCJlbWFpbCI6Imp1YW5pdG9AZXhhbXBsZS5jb20iLCJpYXQiOjE3Njk3MDIxOTQsImV4cCI6MTc2OTcwNTc5NH0.MXzGKiloXatEkEerUUXuz-6WVm-PzFbWW5JCV4Aiwow
 
 ### Register user
 POST {{baseUrl}}/auth/register
 Content-Type: {{json}}
 
 {
-  "email": "juanito@example.com",
+  "email": "juanito1@example.com",
   "password": "changeme123"
 }
 

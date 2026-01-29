@@ -1,0 +1,68 @@
+<div class="login-shell d-flex align-items-center justify-content-center">
+  <div class="card shadow-lg border-0 login-card">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="mb-3 fw-semibold text-center">Inicia sesion</h3>
+          <p class="text-secondary text-center mb-4">Ingresa tu correo y contrasena para continuar.</p>
+
+          <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="email">Correo</label>
+              <input
+                id="email"
+                type="email"
+                class="form-control"
+                formControlName="email"
+                placeholder="correo@ejemplo.com"
+                [class.is-invalid]="hasError('email', 'required') || hasError('email', 'email')"
+              />
+              <div class="invalid-feedback" *ngIf="hasError('email', 'required')">
+                El correo es obligatorio.
+              </div>
+              <div class="invalid-feedback" *ngIf="hasError('email', 'email')">
+                Ingresa un correo valido.
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="password">Contrasena</label>
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                formControlName="password"
+                placeholder="Minimo 6 caracteres"
+                [class.is-invalid]="hasError('password', 'required') || hasError('password', 'minlength')"
+              />
+              <div class="invalid-feedback" *ngIf="hasError('password', 'required')">
+                La contrasena es obligatoria.
+              </div>
+              <div class="invalid-feedback" *ngIf="hasError('password', 'minlength')">
+                Debe tener al menos 6 caracteres.
+              </div>
+            </div>
+
+            <button class="btn btn-primary w-100 py-2" type="submit" [disabled]="isDisabled()">
+              <span *ngIf="!submitting(); else loading">Entrar</span>
+            </button>
+            <ng-template #loading>
+              <div class="d-flex align-items-center justify-content-center">
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                <span>Validando...</span>
+              </div>
+            </ng-template>
+          </form>
+
+          <div *ngIf="feedback()" class="alert mt-4" [ngClass]="feedback()?.success ? 'alert-success' : 'alert-danger'">
+            {{ feedback()?.message }}
+          </div>
+
+          <div class="text-center mt-3">
+            <a routerLink="/register" class="link-secondary small">No tienes cuenta? Registrate</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

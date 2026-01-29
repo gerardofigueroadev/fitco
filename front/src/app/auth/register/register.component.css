@@ -1,0 +1,31 @@
+.auth-shell {
+  min-height: 100vh;
+  padding: 2rem;
+  background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12), transparent 25%),
+    radial-gradient(circle at 90% 30%, rgba(16, 185, 129, 0.12), transparent 20%),
+    #f8fafc;
+}
+
+.auth-card {
+  max-width: 540px;
+  width: 100%;
+  border-radius: 1rem;
+}
+
+.form-control {
+  padding-block: 0.9rem;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+}
+
+.btn-success:disabled {
+  background: #9ca3af;
+  border: none;
+}
+
+.alert {
+  border-radius: 0.75rem;
+}
