@@ -31,8 +31,8 @@ test('registro via UI crea cuenta y llega a home', async ({ page }) => {
   await expect(page).toHaveURL(/\/register$/);
 
   await page.getByLabel('Correo').fill(email);
-  await page.getByLabel('Contrasena').fill(password);
-  await page.getByLabel('Confirmar contrasena').fill(password);
+  await page.getByLabel('Contrasena', { exact: true }).fill(password);
+  await page.getByLabel('Confirmar contrasena', { exact: true }).fill(password);
   await page.getByRole('button', { name: /registrarse/i }).click();
 
   await expect(page).toHaveURL(/\/home$/);

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,7 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    title: 'Home | FitCo'
+    title: 'Home | FitCo',
+    canMatch: [authGuard]
   }
 ];
