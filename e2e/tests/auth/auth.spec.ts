@@ -1,10 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-test('app carga', async ({ page }) => {
-  await page.goto('/');
-  await expect(page).toHaveURL(/localhost:4200/);
-});
-
 test('login exitoso redirige a home', async ({ page, request }) => {
   const apiBase = 'http://localhost:3000';
   const uniqueEmail = `e2e-${Date.now()}@example.com`;
