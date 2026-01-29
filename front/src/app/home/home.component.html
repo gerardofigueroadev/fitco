@@ -1,8 +1,142 @@
-<div class="home-shell">
-  <div class="welcome card shadow-sm">
-    <div class="card-body">
-      <h1 class="h3 mb-2">Bienvenido al Home</h1>
-      <p class="text-secondary mb-0">Has iniciado sesión correctamente.</p>
+<div class="home-shell container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h4 mb-1">Notas</h1>
+      <p class="text-secondary mb-0">Organiza tus notas por estado y crea nuevas rapidamente.</p>
+    </div>
+    <div>
+      <button class="btn btn-outline-secondary btn-sm" (click)="fetchNotes()" [disabled]="loading()">
+        Refrescar
+      </button>
     </div>
   </div>
+
+  <div *ngIf="feedback()" class="alert alert-info">{{ feedback() }}</div>
+
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-white d-flex align-items-center justify-content-between">
+          <span class="fw-semibold">Activas</span>
+          <span class="badge bg-primary">{{ activeNotes().length }}</span>
+        </div>
+        <div class="card-body">
+          <ng-container *ngIf="!loading(); else loadingNotes">
+            <ng-container *ngIf="activeNotes().length; else emptyActive">
+              <div class="note" *ngFor="let note of activeNotes()">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 class="mb-1">{{ note.title }}</h5>
+                    <small class="text-muted">{{ formattedDate(note.updatedAt) }}</small>
+                  </div>
+                  <button
+                    class="btn btn-outline-secondary btn-sm"
+                    (click)="archive(note)"
+                    [disabled]="isArchiving(note.id)"
+                  >
+                    <span *ngIf="!isArchiving(note.id); else archivingTpl">Archivar</span>
+                  </button>
+                  <ng-template #archivingTpl>
+                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                  </ng-template>
+                </div>
+                <p class="text-secondary mb-2">{{ note.content }}</p>
+                <hr class="my-3" />
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-template #emptyActive>
+            <p class="text-secondary mb-0">No hay notas activas.</p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-white d-flex align-items-center justify-content-between">
+          <span class="fw-semibold">Archivadas</span>
+          <span class="badge bg-secondary">{{ archivedNotes().length }}</span>
+        </div>
+        <div class="card-body">
+          <ng-container *ngIf="!loading(); else loadingNotes">
+            <ng-container *ngIf="archivedNotes().length; else emptyArchived">
+              <div class="note" *ngFor="let note of archivedNotes()">
+                <div class="d-flex justify-content-between">
+                  <h5 class="mb-1">{{ note.title }}</h5>
+                  <small class="text-muted">{{ formattedDate(note.updatedAt) }}</small>
+                </div>
+                <p class="text-secondary mb-2">{{ note.content }}</p>
+                <hr class="my-3" />
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-template #emptyArchived>
+            <p class="text-secondary mb-0">No hay notas archivadas.</p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-white">
+          <span class="fw-semibold">Nueva nota</span>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="mb-3">
+              <label for="title" class="form-label">Titulo</label>
+              <input
+                id="title"
+                type="text"
+                class="form-control"
+                formControlName="title"
+                placeholder="Idea rapida"
+                [class.is-invalid]="form.touched && form.get('title')?.invalid"
+              />
+              <div class="invalid-feedback" *ngIf="form.get('title')?.hasError('required')">
+                El titulo es obligatorio.
+              </div>
+              <div class="invalid-feedback" *ngIf="form.get('title')?.hasError('minlength')">
+                Al menos 3 caracteres.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="content" class="form-label">Contenido</label>
+              <textarea
+                id="content"
+                rows="5"
+                class="form-control"
+                formControlName="content"
+                placeholder="Detalle la nota"
+                [class.is-invalid]="form.touched && form.get('content')?.invalid"
+              ></textarea>
+              <div class="invalid-feedback" *ngIf="form.get('content')?.hasError('required')">
+                El contenido es obligatorio.
+              </div>
+              <div class="invalid-feedback" *ngIf="form.get('content')?.hasError('minlength')">
+                Al menos 5 caracteres.
+              </div>
+            </div>
+
+            <button class="btn btn-success w-100" type="submit" [disabled]="form.invalid || creating()">
+              <span *ngIf="!creating(); else saving">Crear nota</span>
+            </button>
+            <ng-template #saving>
+              <div class="d-flex align-items-center justify-content-center">
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                <span>Guardando...</span>
+              </div>
+            </ng-template>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loadingNotes>
+    <div class="text-center text-secondary py-4">Cargando notas...</div>
+  </ng-template>
 </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Credentials, LoginResult } from './credentials';
 
 /**
@@ -10,6 +10,7 @@ import { Credentials, LoginResult } from './credentials';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly BASE_URL = 'http://localhost:3000';
+  private readonly TOKEN_KEY = 'fitco_access_token';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -20,7 +21,12 @@ export class AuthService {
         success: true,
         message: 'Ingreso exitoso, bienvenido 👋',
         accessToken: response.accessToken
-      }))
+      })),
+      tap((result) => {
+        if (result.accessToken) {
+          this.setToken(result.accessToken);
+        }
+      })
     );
   }
 
@@ -31,7 +37,20 @@ export class AuthService {
         success: true,
         message: 'Registro exitoso, bienvenido 👋',
         accessToken: response.accessToken
-      }))
+      })),
+      tap((result) => {
+        if (result.accessToken) {
+          this.setToken(result.accessToken);
+        }
+      })
     );
+  }
+
+  get token(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
   }
 }
