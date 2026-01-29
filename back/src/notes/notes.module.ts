@@ -6,6 +6,7 @@ import { ListNotesUseCase } from './application/use-cases/list-notes.use-case';
 import { NoteRepository } from './domain/repositories/note.repository';
 import { NotesController } from './presentation/notes.controller';
 import { AuthModule } from '../auth/auth.module';
+import { ArchiveNoteUseCase } from './application/use-cases/archive-note.use-case';
 
 const NOTE_REPOSITORY = Symbol('NoteRepository');
 
@@ -27,6 +28,11 @@ const NOTE_REPOSITORY = Symbol('NoteRepository');
     {
       provide: ListNotesUseCase,
       useFactory: (repo: NoteRepository) => new ListNotesUseCase(repo),
+      inject: [NOTE_REPOSITORY],
+    },
+    {
+      provide: ArchiveNoteUseCase,
+      useFactory: (repo: NoteRepository) => new ArchiveNoteUseCase(repo),
       inject: [NOTE_REPOSITORY],
     },
   ],

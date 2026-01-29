@@ -34,3 +34,8 @@ Authorization: Bearer {{token}}
 ### List notes by user
 GET {{baseUrl}}/notes
 Authorization: Bearer {{token}}
+
+### Archive note
+PATCH {{baseUrl}}/notes/618dcf34-7d06-4233-8d76-94c6f412c36f/archive
+Authorization: Bearer {{token}}
+Content-Type: {{json}}

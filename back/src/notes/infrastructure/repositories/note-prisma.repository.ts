@@ -23,4 +23,14 @@ export class NotePrismaRepository implements NoteRepository {
       orderBy: { createdAt: 'desc' },
     });
   }
+
+  async archive(noteId: string, userId: string): Promise<Note | null> {
+    const note = await this.prisma.note.findFirst({ where: { id: noteId, userId } });
+    if (!note) return null;
+
+    return this.prisma.note.update({
+      where: { id: noteId },
+      data: { archived: true, updatedAt: new Date() },
+    });
+  }
 }
