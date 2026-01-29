@@ -21,3 +21,23 @@ test('login exitoso redirige a home', async ({ page, request }) => {
   const token = await page.evaluate(() => localStorage.getItem('fitco_access_token'));
   expect(token).toBeTruthy();
 });
+
+test('registro via UI crea cuenta y llega a home', async ({ page }) => {
+  const email = `e2e-register-${Date.now()}@example.com`;
+  const password = '12345678';
+
+  await page.goto('/');
+  await page.getByRole('link', { name: /registrate/i }).click();
+  await expect(page).toHaveURL(/\/register$/);
+
+  await page.getByLabel('Correo').fill(email);
+  await page.getByLabel('Contrasena').fill(password);
+  await page.getByLabel('Confirmar contrasena').fill(password);
+  await page.getByRole('button', { name: /registrarse/i }).click();
+
+  await expect(page).toHaveURL(/\/home$/);
+  await expect(page.getByRole('heading', { name: /notas/i })).toBeVisible();
+
+  const token = await page.evaluate(() => localStorage.getItem('fitco_access_token'));
+  expect(token).toBeTruthy();
+});
