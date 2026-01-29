@@ -10,6 +10,7 @@ import { PasswordHasher } from './domain/services/password-hasher';
 import { TokenService } from './domain/services/token-service';
 import { JwtTokenService } from './infrastructure/services/jwt-token.service';
 import { LoginUserUseCase } from './application/use-cases/login-user.use-case';
+import { JwtAuthGuard } from './infrastructure/guards/jwt-auth.guard';
 
 const USER_REPOSITORY = Symbol('UserRepository');
 const PASSWORD_HASHER = Symbol('PasswordHasher');
@@ -28,6 +29,7 @@ const TOKEN_SERVICE = Symbol('TokenService');
     UserPrismaRepository,
     BcryptPasswordHasher,
     JwtTokenService,
+    JwtAuthGuard,
     {
       provide: USER_REPOSITORY,
       useExisting: UserPrismaRepository,
@@ -53,6 +55,6 @@ const TOKEN_SERVICE = Symbol('TokenService');
       inject: [USER_REPOSITORY, PASSWORD_HASHER, TOKEN_SERVICE],
     },
   ],
-  exports: [],
+  exports: [JwtModule, JwtAuthGuard],
 })
 export class AuthModule {}

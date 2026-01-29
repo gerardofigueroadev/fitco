@@ -1,13 +1,14 @@
 ### Base URL
 @baseUrl = http://localhost:3000
 @json = application/json
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNjZjMjI5Ny0xMDhiLTRjM2EtOTg4Ni1lNTY4ZjQxZDA0MDUiLCJlbWFpbCI6Imp1YW5pdG9AZXhhbXBsZS5jb20iLCJpYXQiOjE3Njk2OTU5MjgsImV4cCI6MTc2OTY5OTUyOH0.jRXaN246VJPHhJ85l7NC6gyXJ62_Gm95NVL7Da0zSmg
 
 ### Register user
 POST {{baseUrl}}/auth/register
 Content-Type: {{json}}
 
 {
-  "email": "juan@example.com",
+  "email": "juanito@example.com",
   "password": "changeme123"
 }
 
@@ -16,6 +17,20 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{json}}
 
 {
-  "email": "juan@example.com",
+  "email": "juanito@example.com",
   "password": "changeme123"
 }
+
+### Create note
+POST {{baseUrl}}/notes
+Content-Type: {{json}}
+Authorization: Bearer {{token}}
+
+{
+  "title": "My second note",
+  "content": "This is a sample note body"
+}
+
+### List notes by user
+GET {{baseUrl}}/notes
+Authorization: Bearer {{token}}
